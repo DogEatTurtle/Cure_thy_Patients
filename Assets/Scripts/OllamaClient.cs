@@ -8,7 +8,7 @@ public class OllamaClient : MonoBehaviour
 {
     [SerializeField] private string baseUrl = "http://localhost:11434";
     [SerializeField] private string model = "qwen2.5:7b";
-    [SerializeField] private float temperature = 0.7f;
+    [SerializeField] private float temperature = 0.4f;
 
     [Serializable]
     private class ChatRequest
@@ -26,7 +26,6 @@ public class OllamaClient : MonoBehaviour
         public string content;
     }
 
-    // Resposta típica do /api/chat (simplificada)
     [Serializable]
     private class ChatResponse
     {
@@ -42,8 +41,8 @@ public class OllamaClient : MonoBehaviour
             temperature = temperature,
             messages = new[]
             {
-                new Message{ role="system", content=systemPrompt },
-                new Message{ role="user", content=userPrompt }
+                new Message { role = "system", content = systemPrompt },
+                new Message { role = "user", content = userPrompt }
             }
         };
 
@@ -51,8 +50,7 @@ public class OllamaClient : MonoBehaviour
         var url = $"{baseUrl}/api/chat";
 
         using var www = new UnityWebRequest(url, "POST");
-        byte[] body = Encoding.UTF8.GetBytes(json);
-        www.uploadHandler = new UploadHandlerRaw(body);
+        www.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(json));
         www.downloadHandler = new DownloadHandlerBuffer();
         www.SetRequestHeader("Content-Type", "application/json");
 
@@ -62,10 +60,9 @@ public class OllamaClient : MonoBehaviour
         if (www.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError($"Ollama error: {www.error}\n{www.downloadHandler.text}");
-            return "…(LLM error)";
+            return "(LLM error)";
         }
 
-        // JsonUtility é limitado; mas como a resposta tem "message":{"content":...} funciona bem aqui
         var res = JsonUtility.FromJson<ChatResponse>(www.downloadHandler.text);
         return res?.message?.content ?? "(no response)";
     }

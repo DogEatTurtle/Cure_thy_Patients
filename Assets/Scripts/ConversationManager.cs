@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -13,11 +12,13 @@ public class ConversationManager : MonoBehaviour
 
     private bool busy = false;
 
+    private PatientInstance activePatient;
+
     public async void Ask()
     {
         if (busy) return;
 
-        var patient = session.GetCurrentPatient();
+        var patient = activePatient ?? session.GetCurrentPatient();
         if (patient == null) return;
 
         string question = inputQuestion.text.Trim();
@@ -26,21 +27,54 @@ public class ConversationManager : MonoBehaviour
         busy = true;
         outputText.text = "…";
 
-        string systemPrompt = PromptBuilder.BuildSystemPrompt();
-        string userPrompt = PromptBuilder.BuildUserPrompt(patient, question);
+        try
+        {
+            string systemPrompt = PromptBuilder.BuildSystemPrompt();
+            string userPrompt = PromptBuilder.BuildUserPrompt(patient, question);
 
-        string reply = await ollama.ChatOnceAsync(systemPrompt, userPrompt);
+            string reply = await ollama.ChatOnceAsync(systemPrompt, userPrompt);
+            outputText.text = reply;
+            inputQuestion.text = "";
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
 
-        outputText.text = reply;
+    public void Submit()
+    {
+        if (busy) return;
+        if (inputQuestion == null) return;
 
-        inputQuestion.text = "";
-        busy = false;
+        var text = inputQuestion.text.Trim();
+        if (string.IsNullOrEmpty(text)) return;
+
+        Ask();
+    }
+
+    // Para ligar ao evento OnSubmit (se tiveres) ou OnEndEdit (string)
+    public void SubmitFromInput(string _)
+    {
+        Submit();
+    }
+
+
+    public void SetActivePatient(PatientInstance p)
+    {
+        activePatient = p;
     }
 
     public void NextPatient()
     {
         bool hasNext = session.NextPatient();
+        inputQuestion.text = "";
         outputText.text = hasNext ? "Next patient is ready." : "Session finished.";
     }
+    public void ClearActivePatient()
+    {
+        activePatient = null;
+    }
+
 }
 

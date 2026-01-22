@@ -15,6 +15,11 @@ public class Highlightable : MonoBehaviour
     [Header("Optional UI")]
     [SerializeField] private GameObject uiPanel; // assign the Canvas (or a child panel) to open on click
 
+    [SerializeField] private string uiPanelTagFallback = "ConversationUI";
+    private GameObject uiPanelFallback;
+
+    private ConversationManager conversationManager;
+
     private Renderer[] _renderers;
 
     // Outline objects created per-mesh
@@ -32,6 +37,18 @@ public class Highlightable : MonoBehaviour
     void Awake()
     {
         _renderers = GetComponentsInChildren<Renderer>(includeInactive: true);
+
+        conversationManager = FindFirstObjectByType<ConversationManager>();
+
+        if (conversationManager == null)
+            Debug.LogError("[Highlightable] ConversationManager not found in scene (or it's disabled).");
+
+        if (uiPanel == null && !string.IsNullOrEmpty(uiPanelTagFallback))
+        {
+            uiPanelFallback = GameObject.FindGameObjectWithTag(uiPanelTagFallback);
+            if (uiPanelFallback == null)
+                Debug.LogWarning($"[Highlightable] uiPanel not assigned and no object found with tag '{uiPanelTagFallback}'.");
+        }
 
         // Create outline duplicates for MeshFilters
         var meshFilters = GetComponentsInChildren<MeshFilter>(includeInactive: true);
@@ -175,8 +192,24 @@ public class Highlightable : MonoBehaviour
     // Called by the interactor when the object is clicked to open associated UI.
     public void OpenUI()
     {
-        if (uiPanel != null)
-            uiPanel.SetActive(true);
+        Debug.Log($"[Highlightable] OpenUI called on {gameObject.name}");
+
+        var panel = uiPanel;
+
+        if (panel == null)
+        {
+            Debug.Log($"[Highlightable] uiPanel is null, trying UIRegistry. Instance = {(UIRegistry.Instance == null ? "NULL" : "OK")}");
+            panel = UIRegistry.Instance?.ConversationPanel;
+        }
+
+        Debug.Log($"[Highlightable] panel resolved = {(panel == null ? "NULL" : panel.name)}");
+
+        if (panel != null)
+            panel.SetActive(true);
+
+        var actor = GetComponentInParent<PatientActor>();
+        if (actor != null && actor.Patient != null && conversationManager != null)
+            conversationManager.SetActivePatient(actor.Patient);
     }
 
     void OnDisable()
