@@ -24,6 +24,8 @@ public class ConversationManager : MonoBehaviour
         string question = inputQuestion.text.Trim();
         if (string.IsNullOrEmpty(question)) return;
 
+        patient.UnlockFactsForQuestion(question);
+
         busy = true;
         outputText.text = "…";
 
