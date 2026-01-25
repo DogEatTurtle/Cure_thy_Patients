@@ -20,6 +20,11 @@ public class DiagnosisUI : MonoBehaviour
 
     [SerializeField] private DiseaseButtonSelectionUI selectionUI;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip correctSfx;
+    [SerializeField] private AudioClip wrongSfx;
+
     private DiseaseSO selectedDisease;
     private int curedCount = 0;
     private int totalPatients = 5;
@@ -86,6 +91,13 @@ public class DiagnosisUI : MonoBehaviour
         bool correct = selectedDisease == patient.disease;
         if (correct) curedCount++;
 
+        // SFX (acerto/erro)
+        if (audioSource != null)
+        {
+            if (correct && correctSfx != null) audioSource.PlayOneShot(correctSfx);
+            if (!correct && wrongSfx != null) audioSource.PlayOneShot(wrongSfx);
+        }
+
         SetFeedback(correct ? "Correct." : "Incorrect.");
 
         // limpar seleção
@@ -93,7 +105,7 @@ public class DiagnosisUI : MonoBehaviour
 
         // (recomendado) limpar paciente ativo para obrigar a clicar no novo paciente
         if (convoManager != null)
-            convoManager.ClearActivePatient(); // remove esta linha se não tiveres este método
+            convoManager.ClearActivePatient();
 
         // opcional: fechar conversa quando confirmas
         if (conversationPanel != null)
@@ -129,7 +141,6 @@ public class DiagnosisUI : MonoBehaviour
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
     }
 
     private void SetFeedback(string msg)
@@ -138,6 +149,3 @@ public class DiagnosisUI : MonoBehaviour
             feedbackText.text = msg;
     }
 }
-
-
-
