@@ -1,208 +1,138 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Highlightable : MonoBehaviour
 {
-    [Header("Highlight")]
-    [SerializeField] private Color highlightColor = Color.yellow;
-
-    [Header("Outline (mesh-based)")]
-    [SerializeField] private float outlineWidth = 0.02f; // world units (vertex extrusion in object space)
-    [SerializeField] private float outlineScale = 0.03f; // small uniform scale inflation for silhouette
-    [SerializeField] private bool updateEveryFrame = false; // recalc skinned meshes each frame while highlighted
+    [Header("URP Outline (Shader Graph)")]
+    [SerializeField] private Material outlineMaterial; // M_OutlineYellow (uses SG_Outline)
+    [SerializeField] private Color outlineColor = new Color(1f, 1f, 0f, 1f);
+    [SerializeField, Range(0.001f, 0.05f)] private float outlineWidth = 0.01f;
 
     [Header("Optional UI")]
-    [SerializeField] private GameObject uiPanel; // assign the Canvas (or a child panel) to open on click
-
+    [SerializeField] private GameObject uiPanel;
     [SerializeField] private string uiPanelTagFallback = "ConversationUI";
-    private GameObject uiPanelFallback;
 
+    private GameObject uiPanelFallback;
     private ConversationManager conversationManager;
 
-    private Renderer[] _renderers;
+    private bool isHighlighted;
+    private readonly List<Renderer> outlineRenderers = new();
 
-    // Outline objects created per-mesh
-    private readonly List<GameObject> _outlineGOs = new List<GameObject>();
-    private readonly List<MeshRenderer> _outlineRenderers = new List<MeshRenderer>();
-    private readonly List<MeshFilter> _outlineMeshFilters = new List<MeshFilter>();
+    private static readonly int OutlineColorID = Shader.PropertyToID("_OutlineColor");
+    private static readonly int OutlineWidthID = Shader.PropertyToID("_OutlineWidth");
+    private static readonly int OutlineColorID_SG = Shader.PropertyToID("OutlineColor");
+    private static readonly int OutlineWidthID_SG = Shader.PropertyToID("OutlineWidth");
 
-    // For skinned meshes we keep the source skinned renderer and a baked mesh
-    private readonly List<SkinnedMeshRenderer> _skinnedSources = new List<SkinnedMeshRenderer>();
-    private readonly List<Mesh> _bakedMeshes = new List<Mesh>();
-
-    private bool _isHighlighted;
-    private const string OutlineShaderName = "Custom/OutlineUnlit";
-
-    void Awake()
+    private void Awake()
     {
-        _renderers = GetComponentsInChildren<Renderer>(includeInactive: true);
-
         conversationManager = FindFirstObjectByType<ConversationManager>();
 
-        if (conversationManager == null)
-            Debug.LogError("[Highlightable] ConversationManager not found in scene (or it's disabled).");
-
         if (uiPanel == null && !string.IsNullOrEmpty(uiPanelTagFallback))
-        {
             uiPanelFallback = GameObject.FindGameObjectWithTag(uiPanelTagFallback);
-            if (uiPanelFallback == null)
-                Debug.LogWarning($"[Highlightable] uiPanel not assigned and no object found with tag '{uiPanelTagFallback}'.");
-        }
 
-        // Create outline duplicates for MeshFilters
-        var meshFilters = GetComponentsInChildren<MeshFilter>(includeInactive: true);
-        foreach (var mf in meshFilters)
+        BuildOutlineObjects();
+
+        // Forcar estado inicial OFF (sem depender do early-return)
+        isHighlighted = false;
+        ForceOutlineEnabled(false);
+    }
+
+    private void BuildOutlineObjects()
+    {
+        outlineRenderers.Clear();
+
+        if (outlineMaterial == null)
         {
-            if (mf.sharedMesh == null) continue;
-
-            var go = new GameObject("Outline_Mesh_" + mf.name);
-            // parent to the original mesh transform so local transforms match (handles per-mesh local offsets)
-            go.transform.SetParent(mf.transform, worldPositionStays: false);
-            go.transform.localPosition = Vector3.zero;
-            go.transform.localRotation = Quaternion.identity;
-            // apply small uniform inflation so thin surfaces get a visible rim
-            go.transform.localScale = Vector3.one * (1.0f + outlineScale);
-
-            var outMF = go.AddComponent<MeshFilter>();
-            outMF.sharedMesh = mf.sharedMesh;
-
-            var outMR = go.AddComponent<MeshRenderer>();
-            outMR.material = CreateOutlineMaterial();
-            outMR.shadowCastingMode = ShadowCastingMode.Off;
-            outMR.receiveShadows = false;
-            outMR.enabled = false;
-
-            _outlineGOs.Add(go);
-            _outlineMeshFilters.Add(outMF);
-            _outlineRenderers.Add(outMR);
+            Debug.LogWarning("[Highlightable] outlineMaterial is not assigned.");
+            return;
         }
 
-        // Create outline duplicates for SkinnedMeshRenderers (we will bake their meshes)
+        var matInstance = new Material(outlineMaterial);
+
+        if (matInstance.HasProperty(OutlineColorID_SG)) matInstance.SetColor(OutlineColorID_SG, outlineColor);
+        else if (matInstance.HasProperty(OutlineColorID)) matInstance.SetColor(OutlineColorID, outlineColor);
+
+        if (matInstance.HasProperty(OutlineWidthID_SG)) matInstance.SetFloat(OutlineWidthID_SG, outlineWidth);
+        else if (matInstance.HasProperty(OutlineWidthID)) matInstance.SetFloat(OutlineWidthID, outlineWidth);
+
+        matInstance.renderQueue = 4000;
+
+        var meshRenderers = GetComponentsInChildren<MeshRenderer>(includeInactive: true);
+        foreach (var mr in meshRenderers)
+        {
+            var mf = mr.GetComponent<MeshFilter>();
+            if (mf == null || mf.sharedMesh == null) continue;
+
+            var go = new GameObject(mr.gameObject.name + "_Outline");
+            go.transform.SetParent(mr.transform, false);
+
+            var mf2 = go.AddComponent<MeshFilter>();
+            mf2.sharedMesh = mf.sharedMesh;
+
+            var r2 = go.AddComponent<MeshRenderer>();
+
+            int count = (mr.sharedMaterials != null && mr.sharedMaterials.Length > 0) ? mr.sharedMaterials.Length : 1;
+            var mats = new Material[count];
+            for (int k = 0; k < count; k++) mats[k] = matInstance;
+            r2.sharedMaterials = mats;
+
+            r2.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            r2.receiveShadows = false;
+            r2.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
+            r2.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
+
+            r2.enabled = false; // <<< importante: comeca desligado
+            outlineRenderers.Add(r2);
+        }
+
         var skinned = GetComponentsInChildren<SkinnedMeshRenderer>(includeInactive: true);
         foreach (var smr in skinned)
         {
             if (smr.sharedMesh == null) continue;
 
-            var go = new GameObject("Outline_Skinned_" + smr.name);
-            go.transform.SetParent(smr.transform, worldPositionStays: false);
-            go.transform.localPosition = Vector3.zero;
-            go.transform.localRotation = Quaternion.identity;
-            go.transform.localScale = Vector3.one * (1.0f + outlineScale);
+            var go = new GameObject(smr.gameObject.name + "_Outline");
+            go.transform.SetParent(smr.transform, false);
 
-            var outMF = go.AddComponent<MeshFilter>();
-            var outMR = go.AddComponent<MeshRenderer>();
-            outMR.material = CreateOutlineMaterial();
-            outMR.shadowCastingMode = ShadowCastingMode.Off;
-            outMR.receiveShadows = false;
-            outMR.enabled = false;
+            var r2 = go.AddComponent<SkinnedMeshRenderer>();
+            r2.sharedMesh = smr.sharedMesh;
+            r2.bones = smr.bones;
+            r2.rootBone = smr.rootBone;
+            r2.updateWhenOffscreen = smr.updateWhenOffscreen;
 
-            // prepare baked mesh
-            var baked = new Mesh();
-            smr.BakeMesh(baked);
-            outMF.sharedMesh = baked;
+            int count = (smr.sharedMaterials != null && smr.sharedMaterials.Length > 0) ? smr.sharedMaterials.Length : 1;
+            var mats = new Material[count];
+            for (int k = 0; k < count; k++) mats[k] = matInstance;
+            r2.sharedMaterials = mats;
 
-            _outlineGOs.Add(go);
-            _outlineMeshFilters.Add(outMF);
-            _outlineRenderers.Add(outMR);
+            r2.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            r2.receiveShadows = false;
+            r2.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
+            r2.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
 
-            _skinnedSources.Add(smr);
-            _bakedMeshes.Add(baked);
+            r2.enabled = false; // <<< importante: comeca desligado
+            outlineRenderers.Add(r2);
         }
-
-        // Ensure initial material properties
-        UpdateOutlineProperties();
     }
 
-    void OnValidate()
+    private void ForceOutlineEnabled(bool on)
     {
-        // update material properties in editor when values change
-        UpdateOutlineProperties();
-
-        // update scales of any existing outline GOs (editor)
-        for (int i = 0; i < _outlineGOs.Count; i++)
-        {
-            var go = _outlineGOs[i];
-            if (go != null)
-                go.transform.localScale = Vector3.one * (1.0f + outlineScale);
-        }
+        foreach (var r in outlineRenderers)
+            if (r != null) r.enabled = on;
     }
 
-    // Toggle highlight on/off. Uses mesh duplicates rendered with a small extrusion shader.
     public void SetHighlighted(bool on)
     {
-        if (on == _isHighlighted) return;
-        _isHighlighted = on;
-
-        for (int i = 0; i < _outlineRenderers.Count; i++)
-        {
-            var r = _outlineRenderers[i];
-            if (r != null)
-                r.enabled = on;
-        }
-
-        if (on)
-        {
-            // Ensure skinned meshes are baked immediately
-            BakeSkinnedMeshes();
-            UpdateOutlineProperties();
-        }
+        if (isHighlighted == on) return;
+        isHighlighted = on;
+        ForceOutlineEnabled(on);
     }
 
-    void Update()
-    {
-        if (_isHighlighted && updateEveryFrame)
-        {
-            // Re-bake skinned meshes each frame (if any) so outline follows animation
-            BakeSkinnedMeshes();
-        }
-    }
-
-    // Update material color/width properties for all outline renderers
-    private void UpdateOutlineProperties()
-    {
-        for (int i = 0; i < _outlineRenderers.Count; i++)
-        {
-            var mat = _outlineRenderers[i]?.sharedMaterial;
-            if (mat == null) continue;
-            if (mat.HasProperty("_Color"))
-                mat.SetColor("_Color", highlightColor);
-            if (mat.HasProperty("_OutlineWidth"))
-                mat.SetFloat("_OutlineWidth", outlineWidth);
-
-            // Ensure it's drawn before normal geometry (so original mesh occludes the inflated backfaces)
-            mat.renderQueue = (int)RenderQueue.Geometry - 1; // 1999
-        }
-    }
-
-    // Bake skinned meshes into the corresponding mesh filters' shared meshes
-    private void BakeSkinnedMeshes()
-    {
-        for (int i = 0; i < _skinnedSources.Count; i++)
-        {
-            var src = _skinnedSources[i];
-            var baked = _bakedMeshes[i];
-            if (src == null || baked == null) continue;
-            // reuse the same Mesh instance to avoid allocations
-            src.BakeMesh(baked);
-            // MeshFilter already references this baked mesh
-        }
-    }
-
-    // Called by the interactor when the object is clicked to open associated UI.
     public void OpenUI()
     {
-        Debug.Log($"[Highlightable] OpenUI called on {gameObject.name}");
-
         var panel = uiPanel;
 
         if (panel == null)
-        {
-            Debug.Log($"[Highlightable] uiPanel is null, trying UIRegistry. Instance = {(UIRegistry.Instance == null ? "NULL" : "OK")}");
-            panel = UIRegistry.Instance?.ConversationPanel;
-        }
-
-        Debug.Log($"[Highlightable] panel resolved = {(panel == null ? "NULL" : panel.name)}");
+            panel = UIRegistry.Instance?.ConversationPanel ?? uiPanelFallback;
 
         if (panel != null)
             panel.SetActive(true);
@@ -212,47 +142,9 @@ public class Highlightable : MonoBehaviour
             conversationManager.SetActivePatient(actor.Patient);
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
-        foreach (var r in _outlineRenderers)
-            if (r != null)
-                r.enabled = false;
-    }
-
-    private Material CreateOutlineMaterial()
-    {
-        var shader = Shader.Find(OutlineShaderName);
-        if (shader == null)
-        {
-            // fallback to a simple sprite shader (doesn't support extrusion) — but primary shader is recommended.
-            shader = Shader.Find("Sprites/Default");
-        }
-
-        var mat = new Material(shader);
-        if (mat.HasProperty("_Color"))
-            mat.SetColor("_Color", highlightColor);
-        if (mat.HasProperty("_OutlineWidth"))
-            mat.SetFloat("_OutlineWidth", outlineWidth);
-
-        // ensure it's drawn before geometry so the original mesh reads depth and occludes center
-        mat.renderQueue = (int)RenderQueue.Geometry - 1;
-        return mat;
-    }
-
-    void OnDestroy()
-    {
-        // Clean up baked meshes we created for skinned renderers
-        for (int i = 0; i < _bakedMeshes.Count; i++)
-        {
-            if (_bakedMeshes[i] != null)
-            {
-#if UNITY_EDITOR
-                // avoid leaking in editor
-                DestroyImmediate(_bakedMeshes[i]);
-#else
-                Destroy(_bakedMeshes[i]);
-#endif
-            }
-        }
+        isHighlighted = false;
+        ForceOutlineEnabled(false);
     }
 }

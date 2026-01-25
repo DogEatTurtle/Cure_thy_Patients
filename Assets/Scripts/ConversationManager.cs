@@ -78,5 +78,14 @@ public class ConversationManager : MonoBehaviour
         activePatient = null;
     }
 
+    public void ClearConversationUI()
+    {
+        if (outputText != null) outputText.text = "";
+        if (inputQuestion != null) inputQuestion.text = "";
+        busy = false; // segurança
+        ClearActivePatient(); // se tens este método
+    }
+
+
 }
 

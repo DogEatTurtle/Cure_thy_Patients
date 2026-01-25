@@ -1,10 +1,11 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class LookInteractor : MonoBehaviour
 {
     [Header("Raycast")]
-    [SerializeField] private Transform rayOrigin;                   // if null, uses this.transform
+    [SerializeField] private Transform rayOrigin;
     [SerializeField] private float maxDistance = 10f;
     [SerializeField] private LayerMask interactLayers = ~0;
     [SerializeField] private QueryTriggerInteraction triggerInteraction = QueryTriggerInteraction.Ignore;
@@ -12,11 +13,20 @@ public class LookInteractor : MonoBehaviour
     [Header("Cursor / UI")]
     [SerializeField] private bool unlockCursorOnOpen = true;
 
+    [Header("Hover Prompt UI (TMP)")]
+    [SerializeField] private TMP_Text hoverPromptText; // arrasta aqui o TMP_Text (ou mete um TMP_Text num GO que queres ligar/desligar)
+    [SerializeField] private bool hidePromptOnClick = true;
+
     [Header("Debug")]
     [SerializeField] private bool drawDebugRay = true;
     [SerializeField] private Color debugRayColor = Color.cyan;
 
     private Highlightable _currentHighlighted;
+
+    private void Start()
+    {
+        SetPromptVisible(false);
+    }
 
     void Update()
     {
@@ -26,45 +36,41 @@ public class LookInteractor : MonoBehaviour
         if (drawDebugRay)
             Debug.DrawRay(origin, direction * maxDistance, debugRayColor);
 
-        // Raycast forward from origin
+        Highlightable found = null;
+
         if (Physics.Raycast(origin, direction, out RaycastHit hit, maxDistance, interactLayers, triggerInteraction))
         {
-            // Try several ways to find the Highlightable component to be robust to your hierarchy
-            Highlightable found = hit.collider.GetComponentInParent<Highlightable>();
-            if (found == null)
-                found = hit.collider.GetComponent<Highlightable>();
-            if (found == null)
-                found = hit.collider.GetComponentInChildren<Highlightable>();
-            if (found == null)
-                found = hit.transform.GetComponentInParent<Highlightable>(); // fallback
-
-            if (found != _currentHighlighted)
-            {
-                if (_currentHighlighted != null) _currentHighlighted.SetHighlighted(false);
-                _currentHighlighted = found;
-                if (_currentHighlighted != null) _currentHighlighted.SetHighlighted(true);
-            }
+            found = hit.collider.GetComponentInParent<Highlightable>();
+            if (found == null) found = hit.collider.GetComponent<Highlightable>();
+            if (found == null) found = hit.collider.GetComponentInChildren<Highlightable>();
+            if (found == null) found = hit.transform.GetComponentInParent<Highlightable>();
         }
-        else
+
+        if (found != _currentHighlighted)
         {
+            if (_currentHighlighted != null) _currentHighlighted.SetHighlighted(false);
+
+            _currentHighlighted = found;
+
             if (_currentHighlighted != null)
             {
-                _currentHighlighted.SetHighlighted(false);
-                _currentHighlighted = null;
+                _currentHighlighted.SetHighlighted(true);
+                SetPromptVisible(true);
+            }
+            else
+            {
+                SetPromptVisible(false);
             }
         }
 
-        // Left click (Input System)
-        if (Mouse.current == null)
-        {
-            // No mouse device present on this platform
-            return;
-        }
+        if (Mouse.current == null) return;
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             if (_currentHighlighted != null)
             {
+                if (hidePromptOnClick) SetPromptVisible(false);
+
                 _currentHighlighted.OpenUI();
 
                 if (unlockCursorOnOpen)
@@ -75,10 +81,15 @@ public class LookInteractor : MonoBehaviour
             }
             else
             {
-                // Optional: helpful log while debugging
                 Debug.Log("Left click but nothing highlighted (ensure object has a Collider and Highlightable component).");
             }
         }
+    }
+
+    private void SetPromptVisible(bool on)
+    {
+        if (hoverPromptText == null) return;
+        hoverPromptText.gameObject.SetActive(on);
     }
 
     void OnDisable()
@@ -88,5 +99,6 @@ public class LookInteractor : MonoBehaviour
             _currentHighlighted.SetHighlighted(false);
             _currentHighlighted = null;
         }
+        SetPromptVisible(false);
     }
 }

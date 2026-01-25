@@ -18,6 +18,8 @@ public class DiagnosisUI : MonoBehaviour
     [Header("Optional Feedback")]
     [SerializeField] private TextMeshProUGUI feedbackText;    // opcional ("Correct/Incorrect")
 
+    [SerializeField] private DiseaseButtonSelectionUI selectionUI;
+
     private DiseaseSO selectedDisease;
     private int curedCount = 0;
     private int totalPatients = 5;
@@ -75,6 +77,12 @@ public class DiagnosisUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        // limpar outlines
+        if (selectionUI != null) selectionUI.ClearAll();
+
+        // limpar UI de conversa (texto do paciente anterior)
+        if (convoManager != null) convoManager.ClearConversationUI();
+
         bool correct = selectedDisease == patient.disease;
         if (correct) curedCount++;
 
@@ -116,7 +124,7 @@ public class DiagnosisUI : MonoBehaviour
         if (endPanel != null) endPanel.SetActive(true);
 
         if (endResultText != null)
-            endResultText.text = $"Cured patients - {curedCount}/{totalPatients}";
+            endResultText.text = $"Diagnosed patients - {curedCount}/{totalPatients}";
 
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;

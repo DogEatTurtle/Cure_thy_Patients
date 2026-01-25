@@ -737,6 +737,7 @@ GameObject:
   - component: {fileID: 92419435}
   - component: {fileID: 92419434}
   - component: {fileID: 92419433}
+  - component: {fileID: 92419436}
   m_Layer: 5
   m_Name: FoodPoisoning_Btn
   m_TagString: Untagged
@@ -820,6 +821,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 384977486}
+        m_TargetAssemblyTypeName: DiseaseButtonSelectionUI, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 92419433}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &92419434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,6 +871,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 92419431}
   m_CullTransparentMesh: 1
+--- !u!114 &92419436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92419431}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0.003921569, g: 0.6117647, b: 0.10980393, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &102233766
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2061,6 +2089,7 @@ GameObject:
   - component: {fileID: 249554750}
   - component: {fileID: 249554749}
   - component: {fileID: 249554748}
+  - component: {fileID: 249554751}
   m_Layer: 5
   m_Name: ViralGastro_Btn
   m_TagString: Untagged
@@ -2144,6 +2173,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 384977486}
+        m_TargetAssemblyTypeName: DiseaseButtonSelectionUI, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 249554748}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &249554749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2182,6 +2223,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 249554746}
   m_CullTransparentMesh: 1
+--- !u!114 &249554751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249554746}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0.003921569, g: 0.6117647, b: 0.10980393, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &268309061
 GameObject:
   m_ObjectHideFlags: 0
@@ -2289,6 +2345,7 @@ GameObject:
   - component: {fileID: 275575625}
   - component: {fileID: 275575624}
   - component: {fileID: 275575623}
+  - component: {fileID: 275575626}
   m_Layer: 5
   m_Name: RestartLevel
   m_TagString: Untagged
@@ -2410,6 +2467,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 275575621}
   m_CullTransparentMesh: 1
+--- !u!114 &275575626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275575621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033914d3431340748a17cfb6c7c3351d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverFontSize
+  label: {fileID: 135996538}
+  hoverMultiplier: 1.15
 --- !u!1 &292636953
 GameObject:
   m_ObjectHideFlags: 0
@@ -2422,6 +2493,7 @@ GameObject:
   - component: {fileID: 292636957}
   - component: {fileID: 292636956}
   - component: {fileID: 292636955}
+  - component: {fileID: 292636958}
   m_Layer: 5
   m_Name: Depression_Btn
   m_TagString: Untagged
@@ -2505,6 +2577,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 384977486}
+        m_TargetAssemblyTypeName: DiseaseButtonSelectionUI, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 292636955}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &292636956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2543,6 +2627,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 292636953}
   m_CullTransparentMesh: 1
+--- !u!114 &292636958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292636953}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0.003921569, g: 0.6117647, b: 0.10980393, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &311861285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2617,6 +2716,7 @@ GameObject:
   - component: {fileID: 317659147}
   - component: {fileID: 317659146}
   - component: {fileID: 317659145}
+  - component: {fileID: 317659148}
   m_Layer: 5
   m_Name: Influenza_Btn
   m_TagString: Untagged
@@ -2700,6 +2800,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 384977486}
+        m_TargetAssemblyTypeName: DiseaseButtonSelectionUI, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 317659145}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &317659146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2738,6 +2850,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317659143}
   m_CullTransparentMesh: 1
+--- !u!114 &317659148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317659143}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0.003921569, g: 0.6117647, b: 0.10980393, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 0
 --- !u!4 &339016514 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6ddc251cba1f6704d85836b3f2a3a30c, type: 3}
@@ -2887,6 +3014,7 @@ GameObject:
   - component: {fileID: 384977484}
   - component: {fileID: 384977483}
   - component: {fileID: 384977485}
+  - component: {fileID: 384977486}
   m_Layer: 0
   m_Name: UI_Manager
   m_TagString: Untagged
@@ -2951,6 +3079,30 @@ MonoBehaviour:
   endPanel: {fileID: 905823327}
   endResultText: {fileID: 1132492909}
   feedbackText: {fileID: 0}
+  selectionUI: {fileID: 384977486}
+--- !u!114 &384977486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384977482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b43a623dc243e0947a3a1ac991495d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiseaseButtonSelectionUI
+  diseaseButtons:
+  - {fileID: 317659145}
+  - {fileID: 1791860506}
+  - {fileID: 249554748}
+  - {fileID: 1070384140}
+  - {fileID: 832854346}
+  - {fileID: 463538562}
+  - {fileID: 1715937977}
+  - {fileID: 292636955}
+  - {fileID: 1948809101}
+  - {fileID: 92419433}
 --- !u!1 &387332497
 GameObject:
   m_ObjectHideFlags: 0
@@ -3192,6 +3344,7 @@ RectTransform:
   - {fileID: 1718404123}
   - {fileID: 1979009061}
   - {fileID: 905823328}
+  - {fileID: 1745418669}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3594,6 +3747,7 @@ GameObject:
   - component: {fileID: 463538564}
   - component: {fileID: 463538563}
   - component: {fileID: 463538562}
+  - component: {fileID: 463538565}
   m_Layer: 5
   m_Name: BacterialTonsillitis_Btn
   m_TagString: Untagged
@@ -3677,6 +3831,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 384977486}
+        m_TargetAssemblyTypeName: DiseaseButtonSelectionUI, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 463538562}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &463538563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3715,6 +3881,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 463538560}
   m_CullTransparentMesh: 1
+--- !u!114 &463538565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463538560}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0, g: 0.6117647, b: 0.10980393, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &466992141
 GameObject:
   m_ObjectHideFlags: 0
@@ -4874,6 +5055,7 @@ GameObject:
   - component: {fileID: 684403421}
   - component: {fileID: 684403420}
   - component: {fileID: 684403419}
+  - component: {fileID: 684403422}
   m_Layer: 5
   m_Name: Return_Menu
   m_TagString: Untagged
@@ -4995,6 +5177,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 684403417}
   m_CullTransparentMesh: 1
+--- !u!114 &684403422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684403417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033914d3431340748a17cfb6c7c3351d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverFontSize
+  label: {fileID: 196419027}
+  hoverMultiplier: 1.15
 --- !u!1 &686233542
 GameObject:
   m_ObjectHideFlags: 0
@@ -6468,10 +6664,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca109048972f4514aafe0fcb291062f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Highlightable
-  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
-  outlineScale: 0.03
-  updateEveryFrame: 0
+  outlineMaterial: {fileID: 2100000, guid: 07e5a96da07bb084d90852a2e4c8ddef, type: 2}
+  outlineColor: {r: 1, g: 1, b: 0, a: 1}
+  outlineWidth: 0.003
   uiPanel: {fileID: 2110485940}
   uiPanelTagFallback: ConversationUI
 --- !u!1 &832854344
@@ -6486,6 +6681,7 @@ GameObject:
   - component: {fileID: 832854348}
   - component: {fileID: 832854347}
   - component: {fileID: 832854346}
+  - component: {fileID: 832854349}
   m_Layer: 5
   m_Name: UrinaryInfection_Btn
   m_TagString: Untagged
@@ -6569,6 +6765,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 384977486}
+        m_TargetAssemblyTypeName: DiseaseButtonSelectionUI, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 832854346}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &832854347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6607,6 +6815,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832854344}
   m_CullTransparentMesh: 1
+--- !u!114 &832854349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832854344}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0, g: 0.6117647, b: 0.10980393, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &863560169
 GameObject:
   m_ObjectHideFlags: 0
@@ -7605,6 +7828,7 @@ GameObject:
   - component: {fileID: 1070384142}
   - component: {fileID: 1070384141}
   - component: {fileID: 1070384140}
+  - component: {fileID: 1070384143}
   m_Layer: 5
   m_Name: BacterialPneumonia_Btn
   m_TagString: Untagged
@@ -7688,6 +7912,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 384977486}
+        m_TargetAssemblyTypeName: DiseaseButtonSelectionUI, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1070384140}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1070384141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7726,6 +7962,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1070384138}
   m_CullTransparentMesh: 1
+--- !u!114 &1070384143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070384138}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0.003921569, g: 0.6117647, b: 0.10980393, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1085008213
 GameObject:
   m_ObjectHideFlags: 0
@@ -9219,10 +9470,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca109048972f4514aafe0fcb291062f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Highlightable
-  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
-  outlineScale: 0.03
-  updateEveryFrame: 0
+  outlineMaterial: {fileID: 2100000, guid: 07e5a96da07bb084d90852a2e4c8ddef, type: 2}
+  outlineColor: {r: 1, g: 1, b: 0, a: 1}
+  outlineWidth: 0.003
   uiPanel: {fileID: 1718404122}
   uiPanelTagFallback: ConversationUI
 --- !u!1 &1294181382
@@ -10052,6 +10302,8 @@ MonoBehaviour:
     m_Bits: 4294967295
   triggerInteraction: 1
   unlockCursorOnOpen: 1
+  hoverPromptText: {fileID: 1745418670}
+  hidePromptOnClick: 1
   drawDebugRay: 1
   debugRayColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1 &1457896858
@@ -11364,6 +11616,7 @@ GameObject:
   - component: {fileID: 1715937979}
   - component: {fileID: 1715937978}
   - component: {fileID: 1715937977}
+  - component: {fileID: 1715937980}
   m_Layer: 5
   m_Name: Anxiety_Btn
   m_TagString: Untagged
@@ -11447,6 +11700,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 384977486}
+        m_TargetAssemblyTypeName: DiseaseButtonSelectionUI, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1715937977}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1715937978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11485,6 +11750,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1715937975}
   m_CullTransparentMesh: 1
+--- !u!114 &1715937980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715937975}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0, g: 0.6117647, b: 0.10980393, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &1716749776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11767,6 +12047,143 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4dfb761025b97054cbf4e0d5d0aabef7, type: 3}
   m_PrefabInstance: {fileID: 1740660118}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1745418668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1745418669}
+  - component: {fileID: 1745418671}
+  - component: {fileID: 1745418670}
+  m_Layer: 5
+  m_Name: ClickToInteract
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1745418669
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745418668}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 401998012}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -84}
+  m_SizeDelta: {x: 372.0894, y: 86.8762}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1745418670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745418668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Click to Interact
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 42
+  m_fontSizeBase: 42
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1745418671
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745418668}
+  m_CullTransparentMesh: 1
 --- !u!1 &1758738302
 GameObject:
   m_ObjectHideFlags: 0
@@ -12025,6 +12442,7 @@ GameObject:
   - component: {fileID: 1791860508}
   - component: {fileID: 1791860507}
   - component: {fileID: 1791860506}
+  - component: {fileID: 1791860509}
   m_Layer: 5
   m_Name: CommonCold_Btn
   m_TagString: Untagged
@@ -12108,6 +12526,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 384977486}
+        m_TargetAssemblyTypeName: DiseaseButtonSelectionUI, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1791860506}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1791860507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12146,6 +12576,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1791860504}
   m_CullTransparentMesh: 1
+--- !u!114 &1791860509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791860504}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0.003921569, g: 0.6117647, b: 0.10980393, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1794011170
 GameObject:
   m_ObjectHideFlags: 0
@@ -12648,13 +13093,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1836281768}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.476, y: 0.822, z: -2.016}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalPosition: {x: 3.476, y: 0.1, z: -2.016}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!114 &1836281770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12670,11 +13115,11 @@ MonoBehaviour:
   session: {fileID: 1309874502}
   spawnPoint: {fileID: 1836281769}
   patientPrefabs:
-  - {fileID: 6252009968947843980, guid: 905e629e03b036b4482d9b862ae63a37, type: 3}
-  - {fileID: 1322037537464965058, guid: 4d39b05a33bfe414eae7e1ed5d732087, type: 3}
-  - {fileID: 6894683913603704738, guid: aa669ee35c7819d46a4fcb0b13f20f2f, type: 3}
-  - {fileID: 4364142693179203729, guid: e4725208cc1b6634599023a74a3ebb80, type: 3}
-  - {fileID: 7006219778238813804, guid: ab197f2b7b1113f43bbd32cb86fcc0b0, type: 3}
+  - {fileID: 682469956677451695, guid: 11abb44967979cf4cbfd893270e1fb25, type: 3}
+  - {fileID: 8437759728765681727, guid: c1e13484a2820a649b1852a5b97db741, type: 3}
+  - {fileID: 180293731824554706, guid: 9fd63d5d5aefdcd459d1fd8873d3856f, type: 3}
+  - {fileID: 1513327114176621649, guid: 96b73ab37563a654393c1c3558089788, type: 3}
+  - {fileID: 4133188171185060169, guid: 210ffa371dd6ecb43a4b06f1e868b5a9, type: 3}
 --- !u!1 &1847906756
 GameObject:
   m_ObjectHideFlags: 0
@@ -13423,6 +13868,7 @@ GameObject:
   - component: {fileID: 1948809103}
   - component: {fileID: 1948809102}
   - component: {fileID: 1948809101}
+  - component: {fileID: 1948809104}
   m_Layer: 5
   m_Name: Dehydration_Btn
   m_TagString: Untagged
@@ -13506,6 +13952,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 384977486}
+        m_TargetAssemblyTypeName: DiseaseButtonSelectionUI, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1948809101}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1948809102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13544,6 +14002,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948809099}
   m_CullTransparentMesh: 1
+--- !u!114 &1948809104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948809099}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0, g: 0.6117647, b: 0.10980393, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1949288903
 GameObject:
   m_ObjectHideFlags: 0
