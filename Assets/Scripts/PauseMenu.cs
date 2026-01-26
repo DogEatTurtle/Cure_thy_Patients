@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,28 +7,29 @@ public class PauseMenu : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject pausePanel;
 
+    [Header("Close these on Pause")]
+    [SerializeField] private GameObject conversationPanel;
+    [SerializeField] private GameObject computerPanel;
+    [SerializeField] private GameObject notebookPanel;
+
+    [Header("Disable interaction while paused")]
+    [SerializeField] private LookInteractor lookInteractor; // arrasta o LookInteractor da Main Camera
+
     private bool isPaused;
 
     private void Awake()
     {
-        if (pausePanel != null)
-            pausePanel.SetActive(false);
-
-        isPaused = false;
+        if (pausePanel != null) pausePanel.SetActive(false);
     }
 
     private void Update()
     {
         if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
             TogglePause();
-        }
     }
 
     public void TogglePause()
     {
-        if (pausePanel == null) return;
-
         if (isPaused) Resume();
         else Pause();
     }
@@ -35,6 +37,14 @@ public class PauseMenu : MonoBehaviour
     public void Pause()
     {
         if (pausePanel == null) return;
+
+        // Fecha paineis por baixo (evita sobreposicao)
+        if (conversationPanel != null) conversationPanel.SetActive(false);
+        if (computerPanel != null) computerPanel.SetActive(false);
+        if (notebookPanel != null) notebookPanel.SetActive(false);
+
+        // Desativa interacao
+        if (lookInteractor != null) lookInteractor.enabled = false;
 
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
@@ -56,23 +66,26 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = false;
 
         isPaused = false;
+
+        // Reativar interacao com atraso para nao apanhar o clique do botao Resume
+        if (lookInteractor != null)
+            StartCoroutine(ReenableInteractorNextFrame());
     }
 
-    // Opcional: usa estes 2 métodos se quiseres garantir que não ficas com timeScale=0
-    // quando carregas nos botões do PauseMenu.
-
-    public void PrepareForSceneChange()
+    private IEnumerator ReenableInteractorNextFrame()
     {
-        Time.timeScale = 1f;
-        isPaused = false;
+        // espera 1 frame (unscaled) para o UI terminar o clique
+        yield return null;
+
+        // espera o botao esquerdo ser largado (evita click-through)
+        while (Mouse.current != null && Mouse.current.leftButton.isPressed)
+            yield return null;
+
+        lookInteractor.enabled = true;
     }
 
     private void OnDisable()
     {
-        if (isPaused)
-        {
-            Time.timeScale = 1f;
-            isPaused = false;
-        }
+        if (isPaused) Time.timeScale = 1f;
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -25,6 +26,13 @@ public class DiagnosisUI : MonoBehaviour
     [SerializeField] private AudioClip correctSfx;
     [SerializeField] private AudioClip wrongSfx;
 
+    [Header("Result Images")]
+    [SerializeField] private GameObject correctImage; // arrasta aqui a imagem de "certo"
+    [SerializeField] private GameObject wrongImage;   // arrasta aqui a imagem de "errado"
+    [SerializeField] private float resultImageSeconds = 2f;
+
+    private Coroutine resultImageRoutine;
+
     private DiseaseSO selectedDisease;
     private int curedCount = 0;
     private int totalPatients = 5;
@@ -45,6 +53,10 @@ public class DiagnosisUI : MonoBehaviour
 
         if (endPanel != null)
             endPanel.SetActive(false);
+
+        // garantir que as imagens começam escondidas
+        if (correctImage != null) correctImage.SetActive(false);
+        if (wrongImage != null) wrongImage.SetActive(false);
     }
 
     public void SelectDisease(DiseaseSO disease)
@@ -98,6 +110,9 @@ public class DiagnosisUI : MonoBehaviour
             if (!correct && wrongSfx != null) audioSource.PlayOneShot(wrongSfx);
         }
 
+        // Imagem de feedback (2s)
+        ShowResultImage(correct);
+
         SetFeedback(correct ? "Correct." : "Incorrect.");
 
         // limpar seleção
@@ -122,6 +137,33 @@ public class DiagnosisUI : MonoBehaviour
 
         // spawn do próximo
         spawner.SpawnCurrent();
+    }
+
+    private void ShowResultImage(bool correct)
+    {
+        // para não sobrepor coroutines se clicares rápido
+        if (resultImageRoutine != null)
+        {
+            StopCoroutine(resultImageRoutine);
+            resultImageRoutine = null;
+        }
+
+        resultImageRoutine = StartCoroutine(ResultImageRoutine(correct));
+    }
+
+    private IEnumerator ResultImageRoutine(bool correct)
+    {
+        if (correctImage != null) correctImage.SetActive(false);
+        if (wrongImage != null) wrongImage.SetActive(false);
+
+        var go = correct ? correctImage : wrongImage;
+        if (go != null) go.SetActive(true);
+
+        // Realtime para funcionar mesmo se o jogo for pausado depois
+        yield return new WaitForSecondsRealtime(resultImageSeconds);
+
+        if (go != null) go.SetActive(false);
+        resultImageRoutine = null;
     }
 
     private void ShowEndPanel()
